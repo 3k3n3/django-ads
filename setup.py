@@ -14,13 +14,13 @@ here = path.abspath(path.dirname(__file__))
 with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
-
+# This fork is based on the following versions
 REQUIREMENTS = [
-    'Django>=1.8',
-    'django-appconf>=1.0.2',
-    'django-sekizai>=0.9.0',
-    'django-braces>=1.10.0',
-    'django-js-reverse>=0.8.2',
+    'Django>=4.2',
+    'django-appconf>=1.0.5',
+    'django-sekizai>=4.1.0',
+    'django-braces>=1.15.0',
+    'django-js-reverse>=0.10.2',
     'Pillow',
 ]
 
