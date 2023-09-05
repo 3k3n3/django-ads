@@ -17,15 +17,16 @@ Install the package using pip:
   pip install django-ads
 
 Add the follwing to your ``INSTALLED_APPS``
+
 .. code-block:: python
 
-INSTALLED_APPS = [
-  ...
-  'ads',
-  'django_js_reverse',
-  'sekizai',
-  ...
-]
+  INSTALLED_APPS = [
+    ...
+    'ads',
+    'django_js_reverse',
+    'sekizai',
+    ...
+  ]
 
 Run django Migration to add tables to your database:
 
@@ -197,7 +198,8 @@ Changelog:
 ----------
 1.2.0 (2023-09-05)
 
-- support for Django 4 (Thanks to `@MauricioVilla <https://github.com/razisayyed/django-ads/issues/13#issuecomment-629536938>`)
+- support for Django 4 (Thanks to `@MauricioVilla <https://github.com/razisayyed/django-ads/issues/13#issuecomment-629536938>`_
+)
 
 1.1.1 (2020-03-20):
 
