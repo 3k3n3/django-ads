@@ -16,6 +16,12 @@ Install the package using pip:
 
   pip install django-ads
 
+This updated fork of the package is not merged to the main repository at this time, so to install it:
+
+.. code-block:: python
+
+  pip install git+https://github.com/3k3n3/django-ads.git
+
 Add the follwing to your ``INSTALLED_APPS``
 
 .. code-block:: python
@@ -198,8 +204,7 @@ Changelog:
 ----------
 1.2.0 (2023-09-05)
 
-- support for Django 4 (Thanks to `@MauricioVilla <https://github.com/razisayyed/django-ads/issues/13#issuecomment-629536938>`_
-)
+- support for Django 4 (Thanks to `@MauricioVilla <https://github.com/razisayyed/django-ads/issues/13#issuecomment-629536938>`_)
 
 1.1.1 (2020-03-20):
 

@@ -150,7 +150,7 @@ class Impression(models.Model):
         )
 
     def __str__(self):
-        return force_text(self.ad)
+        return force_str(self.ad)
 
 
 class Click(models.Model):
@@ -176,4 +176,4 @@ class Click(models.Model):
         )
 
     def __str__(self):
-        return force_text(self.ad)
+        return force_str(self.ad)
