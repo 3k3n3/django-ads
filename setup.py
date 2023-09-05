@@ -16,7 +16,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 # This fork is based on the following versions
 REQUIREMENTS = [
-    'Django>=4.2',
+    'Django>=4.0',
     'django-appconf>=1.0.5',
     'django-sekizai>=4.1.0',
     'django-braces>=1.15.0',

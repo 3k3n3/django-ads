@@ -16,18 +16,33 @@ Install the package using pip:
 
   pip install django-ads
 
+Add the follwing to your ``INSTALLED_APPS``
+.. code-block:: python
+
+INSTALLED_APPS = [
+  ...
+  'ads',
+  'django_js_reverse',
+  'sekizai',
+  ...
+]
+
 Run django Migration to add tables to your database:
 
 .. code-block:: python
 
   python manage.py migrate ads
 
+Also run:
+
+.. code-block:: python
+
+  python manage.py collectstatic_js_reverse                      
+
 Configuration:
 --------------
 
-Add ``'ads'`` to your ``INSTALLED_APPS``
-
-Make sure ``django.template.context_processors.request`` is included in ``context_processors``
+Make sure ``django.template.context_processors.request`` and ``sekizai.context_processors.sekizai`` are included in ``context_processors``
 
 .. code-block:: python
 
@@ -41,25 +56,15 @@ Make sure ``django.template.context_processors.request`` is included in ``contex
                   ...
                   'django.template.context_processors.request',
                   ...
+                  "sekizai.context_processors.sekizai",
+                  ...
               ],
           },
       },
   ]
 
 
-Make sure ``django.contrib.sessions.middleware.SessionMiddleware`` is included to ``MIDDLEWARE_CLASSES/MIDDLEWARE``
-
-Prior to Django 1.10
-
-.. code-block:: python
-
-  MIDDLEWARE_CLASSES = [
-      ...
-      'django.contrib.sessions.middleware.SessionMiddleware',
-      ...
-  ]
-
-Django 1.10 (new style)
+Make sure ``django.contrib.sessions.middleware.SessionMiddleware`` is included to ``MIDDLEWARE``
 
 .. code-block:: python
 
@@ -72,6 +77,9 @@ Django 1.10 (new style)
 Add the following to your settings file:
 
 .. code-block:: python
+    from django.utils.translation import gettext_lazy as _
+
+    gettext = lambda s: s
 
     ADS_GOOGLE_ADSENSE_CLIENT = None  # 'ca-pub-xxxxxxxxxxxxxxxx'
 
@@ -145,11 +153,11 @@ Create a URL pattern in your urls.py:
 
 .. code-block:: python
 
-  from django.conf.urls import include, url
+  from django.urls import include, path
 
   urlpatterns = [
       ...
-      url(r'^ads/', include('ads.urls')),
+      path('ads/', include('ads.urls')),
       ...
   ]
 
@@ -158,11 +166,19 @@ Usage:
 
 Add Advertisers, Categories, and Ads using Django admin interface.
 
-load ``ads_tags`` in your template:
+load ``ads_tags``, ``sekizai_tags`` and  ``js_reverse`` in your template:
 
 .. code-block:: python
 
-  {% load ads_tags %}
+  {% load ads_tags sekizai_tags js_reverse %}
+
+Also include this script in your template
+
+.. code-block:: python
+
+  <script type="text/javascript" charset="utf-8">
+    {% js_reverse_inline %}
+  </script>
 
 use ``render_ads_zone`` in your template where you want your ads to appear:
 
@@ -175,10 +191,13 @@ use ``get_ads_count`` in your template to check if any zone has active ads.
 .. code-block:: python
 
   {% get_ads_count 'zone1' as ads_count %}
-  {{ get_ads_count 'zone1,zone2,zone3' as ads_count %}
+  {% get_ads_count 'zone1,zone2,zone3' as ads_count %}
 
 Changelog:
 ----------
+1.2.0 (2023-09-05)
+
+- support for Django 4 (Thanks to `@MauricioVilla <https://github.com/razisayyed/django-ads/issues/13#issuecomment-629536938>`)
 
 1.1.1 (2020-03-20):
 

@@ -15,7 +15,7 @@ def render_ads_zone(context, zone):
     Returns an advertise for a ``zone``.
     Tag usage:
     {% load ads_tags %}
-    {% render_zone 'zone' %}
+    {% render_ads_zone 'zone' %}
     """
     context.update({
         'google_adsense_client': settings.ADS_GOOGLE_ADSENSE_CLIENT,
