@@ -11,49 +11,44 @@ from ads.utils import update_clicks, update_impressions
 
 
 class AdImpressionView(JSONResponseMixin, View):
-    json_dumps_kwargs = {u"indent": 2}
+    json_dumps_kwargs = {"indent": 2}
 
     def get_object(self):
-        zone = self.kwargs.get('zone', None)
+        zone = self.kwargs.get("zone", None)
         return Ad.objects.random_ad(zone)
 
     def get_ad_context_dict(self, zone):
         ad = Ad.objects.random_ad(zone)
         if ad:
-            context_dict = {
-                'url': ad.get_absolute_url(),
-                'images': {}
-            }
+            context_dict = {"url": ad.get_absolute_url(), "images": {}}
             for image in ad.images.all():
-                context_dict['images'].update({
-                    image.device: {
-                        'url': image.image.url,
-                        'size': image.size
-                    }
-                })
+                context_dict["images"].update(
+                    {image.device: {"url": image.image.url, "size": image.size}}
+                )
             return context_dict
         return None
-        
+
     def get(self, request, *args, **kwargs):
         data = {}
-        zones = request.GET.getlist('zones[]', []);
+        zones = request.GET.getlist("zones[]", [])
         for zone in zones:
             zone_conf = settings.ADS_ZONES.get(zone, {})
             ad = self.get_ad_context_dict(zone)
+
+            if ad:
+                # Extract ad ID and update impressions each time ad is displayed
+                ads = Ad.objects.get(id=ad["url"][5:-1])
+                update_impressions(ads, request)
+
             if zone_conf:
-                data.update({
-                    zone: {
-                        'ad': ad,
-                        'conf': zone_conf
-                    }
-                })
+                data.update({zone: {"ad": ad, "conf": zone_conf}})
         context_dict = {
-            'google_adsense_client': settings.ADS_GOOGLE_ADSENSE_CLIENT,
-            'viewports': settings.ADS_VIEWPORTS,
-            'zones': data
+            "google_adsense_client": settings.ADS_GOOGLE_ADSENSE_CLIENT,
+            "viewports": settings.ADS_VIEWPORTS,
+            "zones": data,
         }
         return self.render_json_response(context_dict)
-    
+
         """
         context_dict = {
             'zone': self.kwargs.get('zone', None)
@@ -74,8 +69,8 @@ class AdImpressionView(JSONResponseMixin, View):
         return self.render_json_response(context_dict)
         """
 
-class AdClickView(SingleObjectMixin, View):
 
+class AdClickView(SingleObjectMixin, View):
     def get_queryset(self):
         return Ad.objects.all()
 
