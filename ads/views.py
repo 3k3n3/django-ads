@@ -37,7 +37,6 @@ class AdImpressionView(JSONResponseMixin, View):
     def get(self, request, *args, **kwargs):
         data = {}
         zones = request.GET.getlist('zones[]', []);
-        # print(zones)
         for zone in zones:
             zone_conf = settings.ADS_ZONES.get(zone, {})
             ad = self.get_ad_context_dict(zone)
